@@ -6,7 +6,7 @@ from fpdf import FPDF
 import numpy as np
 
 # Load the trained model
-model = torch.load('/plant-disease-model.pth', map_location=torch.device('cpu'))
+model = torch.load('/plant-disease-model.pth', map_location=torch.device('cuda'))
 model.eval()
 
 # Define the image pre-processing function
