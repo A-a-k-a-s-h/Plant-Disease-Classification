@@ -6,7 +6,7 @@ from io import BytesIO
 import base64
 
 # Load the trained model from the .pth file
-model = torch.load('models/plant_disease_model.pth', map_location=torch.device('cpu'))
+model = torch.load('/plant-disease-model.pth', map_location=torch.device('cuda'))
 model.eval()
 
 # Function to classify an image
