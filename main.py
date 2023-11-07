@@ -13,7 +13,14 @@ model.eval()
 def classify_image(image):
     # Preprocess the image (resize, normalize, convert to tensor, etc.)
     # Pass the preprocessed image through the model
-    # Return the predicted class
+    # Return the predicted class using the predict_image function
+
+# Function to predict image using the model
+def predict_image(image):
+    # Load the image, preprocess it, and get the predicted class
+    pil_image = Image.open(image)
+    class_name = predict_image(pil_image, model)  # Call your existing predict_image function
+    return class_name
 
 st.title('Plant Disease Classification App')
 
