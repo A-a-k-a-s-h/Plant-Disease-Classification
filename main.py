@@ -2,19 +2,11 @@
 import streamlit as st
 from PIL import Image
 import torch
-import torch.nn as nn
-from torchvision import transforms
-import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
 
-# Define the model architecture
-class PlantDiseaseModel(nn.Module):
-    # Your model architecture definition here
-
-# Load the trained model
-model = PlantDiseaseModel()
-model.load_state_dict(torch.load('/plant-disease-model.pth', map_location=torch.device('cuda')))
+# Load the trained model from the .pth file
+model = torch.load('models/plant_disease_model.pth', map_location=torch.device('cpu'))
 model.eval()
 
 # Function to classify an image
@@ -53,13 +45,7 @@ def download_report():
     # (You can use Matplotlib for creating the graph)
 
     # Save the BytesIO object as a PDF
-    plt.savefig(output, format='pdf')
-    output.seek(0)
-
     # Provide a download link for the user
-    b64 = base64.b64encode(output.read()).decode()
-    href = f'<a href="data:application/pdf;base64,{b64}" download="classification_report.pdf">Download PDF Report</a>'
-    st.markdown(href, unsafe_allow_html=True)
 
 if st.button('Generate PDF Report'):
     download_report()
