@@ -1,4 +1,4 @@
-!pip install torch torchvision
+pip install torch torchvision
 # main.py
 import streamlit as st
 from PIL import Image
