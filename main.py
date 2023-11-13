@@ -13,7 +13,7 @@ model = torch.load('plant-disease-model.pth', map_location=torch.device('cpu'))
 # Define the image pre-processing function
 def preprocessed_image(image):
     image = Image.open(image)
-    image = image.resize((224, 224), Image.ANTIALIAS)
+    image = image.resize((256, 256), Image.ANTIALIAS)
     image = np.array(image)
     image = image.astype('float32') / 255
     image = np.transpose(image, (2, 0, 1))
