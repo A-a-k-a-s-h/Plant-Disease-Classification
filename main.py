@@ -15,7 +15,7 @@ def preprocess_image(image):
     image = image.resize((256, 256), Resampling.BILINEAR)
 
     # Convert the image to a PyTorch tensor
-    image = torch.from_numpy(image)
+    image = np.asarray(image)
 
     # Normalize the image
     image = image / 255.0
