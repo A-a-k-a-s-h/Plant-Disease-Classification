@@ -10,14 +10,7 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import ImageFolder
 import os
 
-# Function to make predictions
-def predict_disease(image_path, model):
-    image = Image.open(image_path).convert('RGB')
-    image = ToTensor()(image).unsqueeze(0)
-    with torch.no_grad():
-        output = model(image)
-    _, predicted = torch.max(output, 1)
-    return train.classes[predicted.item()]
+
 
 # Model definition
 class SimpleResidualBlock(nn.Module):
