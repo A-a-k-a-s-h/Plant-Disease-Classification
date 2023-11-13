@@ -12,7 +12,7 @@ def preprocess_image(image):
     """Preprocess the image for classification."""
 
     # Resize the image to 256x256
-    image = image.resize((256, 256), Resampling.Image.ANTIALIAS)
+    image = image.resize((256, 256), Resampling.BILINEAR)
 
     # Convert the image to a PyTorch tensor
     image = torch.from_numpy(image)
