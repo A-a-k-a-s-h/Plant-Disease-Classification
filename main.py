@@ -61,7 +61,7 @@ class ResNet9(nn.Module):
         return out
 
 # Load the trained model
-model = ResNet9(3, num_diseases)  # Replace 'num_diseases' with the actual number of classes
+model = ResNet9(3, 38)  # Replace 'num_diseases' with the actual number of classes
 model.load_state_dict(torch.load('plant-disease-model.pth'))  # Replace with the actual path
 
 # Set the model to evaluation mode
