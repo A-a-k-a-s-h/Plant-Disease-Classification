@@ -5,6 +5,7 @@ import torch
 from fpdf import FPDF
 import numpy as np
 import datetime
+import Image.Resampling
 
 # Load the trained model
 model = torch.load('plant-disease-model.pth', map_location=torch.device('cpu'))
@@ -13,7 +14,7 @@ model = torch.load('plant-disease-model.pth', map_location=torch.device('cpu'))
 # Define the image pre-processing function
 def preprocessed_image(image):
     image = Image.open(image)
-    image = image.resize((256, 256), Image.ANTIALIAS)
+    image = image.resize((256, 256), Image.Resampling.ANTIALIAS)
     image = np.array(image)
     image = image.astype('float32') / 255
     image = np.transpose(image, (2, 0, 1))
