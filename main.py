@@ -3,7 +3,7 @@ from PIL import Image
 import torch
 
 # Load the pre-trained model
-model = torch.load('plant-disease-model.pth')
+model = torch.load('plant-disease-model.pth',map_location=torch.device('cpu'))
 model.eval()
 
 # Define a function to preprocess the image
