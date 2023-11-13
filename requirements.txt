@@ -3,3 +3,4 @@ torch==1.9.1
 torchvision==0.10.1
 torchsummary==1.5.1
 fpdf==1.7.2
+pillow
