@@ -5,6 +5,7 @@ import torch
 from fpdf import FPDF
 import numpy as np
 import datetime
+import Image
 import Image.Resampling
 
 # Load the trained model
