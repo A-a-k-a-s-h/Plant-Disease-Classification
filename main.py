@@ -103,7 +103,7 @@ model.load_state_dict(torch.load('plant-disease-model.pth', map_location=torch.d
 model.eval()
 
 # Function to make predictions
-def predict_disease(image_path):
+def predict_disease(image_path,model):
     image = Image.open(image_path).convert('RGB')
     image = ToTensor()(image).unsqueeze(0)
     with torch.no_grad():
@@ -125,7 +125,7 @@ def main():
         st.write("Classifying...")
 
         # Make prediction
-        prediction = predict_disease(uploaded_file)
+        prediction = predict_disease(uploaded_file,model)
 
         st.write(f"Prediction: {prediction}")
 
