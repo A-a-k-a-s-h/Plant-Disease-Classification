@@ -4,6 +4,7 @@ from PIL import Image
 import torch
 from fpdf import FPDF
 import numpy as np
+import datetime
 
 # Load the trained model
 model = torch.load('plant-disease-model.pth', map_location=torch.device('cpu'))
