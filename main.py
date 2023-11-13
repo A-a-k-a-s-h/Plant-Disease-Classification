@@ -2,6 +2,7 @@ import streamlit as st
 from PIL import Image
 from PIL.Image import Resampling
 import torch
+import numpy as np
 
 # Load the pre-trained model
 model = torch.load('plant-disease-model.pth',map_location=torch.device('cpu'))
