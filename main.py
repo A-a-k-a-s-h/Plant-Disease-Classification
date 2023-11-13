@@ -4,7 +4,7 @@ import torch
 
 # Load the pre-trained model
 model = torch.load('plant-disease-model.pth',map_location=torch.device('cpu'))
-model.eval()
+
 
 # Define a function to preprocess the image
 def preprocess_image(image):
