@@ -2,6 +2,10 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
+def accuracy(outputs, labels):
+    _, preds = torch.max(outputs, dim=1)
+    return torch.tensor(torch.sum(preds == labels).item() / len(preds))
+    
 class ConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels, pool=False):
         super(ConvBlock, self).__init__()
