@@ -1,6 +1,8 @@
 import streamlit as st
 from PIL import Image
 import torch
+import torch.nn as nn
+from torch.nn import functional as F
 from torchvision.transforms import transforms
 from torchvision.datasets import ImageFolder
 from torchvision import models
