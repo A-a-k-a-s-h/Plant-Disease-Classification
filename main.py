@@ -3,6 +3,7 @@ from PIL import Image
 import torch
 from torchvision.transforms import transforms
 from torchvision.datasets import ImageFolder
+from torchvision import models
 from model import ConvBlock, ImageClassificationBase
 
 # Load the model
