@@ -8,7 +8,7 @@ import pandas as pd
 import datetime
 import matplotlib.pyplot as plt
 
-model = torch.load('/content/plant-disease-model.pth')
+model = torch.load('plant-disease-model.pth')
 
 
 # Define the image pre-processing function
