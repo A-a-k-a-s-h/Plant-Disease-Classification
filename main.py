@@ -15,6 +15,8 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
+classes = ['Raspberry___healthy', 'Tomato___Late_blight', 'Potato___healthy', 'Tomato___Leaf_Mold', 'Grape___healthy', 'Corn_(maize)___healthy', 'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)', 'Potato___Late_blight', 'Peach___healthy', 'Corn_(maize)___Common_rust_', 'Strawberry___Leaf_scorch', 'Grape___Black_rot', 'Squash___Powdery_mildew', 'Tomato___Tomato_Yellow_Leaf_Curl_Virus', 'Apple___Cedar_apple_rust', 'Peach___Bacterial_spot', 'Tomato___healthy', 'Tomato___Target_Spot', 'Pepper,_bell___Bacterial_spot', 'Potato___Early_blight', 'Apple___healthy', 'Strawberry___healthy', 'Pepper,_bell___healthy', 'Tomato___Early_blight', 'Orange___Haunglongbing_(Citrus_greening)', 'Blueberry___healthy', 'Tomato___Tomato_mosaic_virus', 'Corn_(maize)___Northern_Leaf_Blight', 'Cherry_(including_sour)___healthy', 'Apple___Black_rot', 'Apple___Apple_scab', 'Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot', 'Soybean___healthy', 'Tomato___Bacterial_spot', 'Tomato___Septoria_leaf_spot', 'Tomato___Spider_mites Two-spotted_spider_mite', 'Cherry_(including_sour)___Powdery_mildew', 'Grape___Esca_(Black_Measles)']
+
 
 def predict_disease(uploaded_file, model, transform, classes):
     image = Image.open(uploaded_file).convert('RGB')
