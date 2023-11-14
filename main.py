@@ -12,10 +12,6 @@ model = torch.load('plant-disease-model.pth',map_location=torch.device('cpu'))
 def preprocess_image(image):
     """Preprocess the image for classification."""
 
-    # Upgrade to a newer version of Pillow if necessary.
-    if Pillow.__version__ < '9.1.0':
-        raise RuntimeError('Pillow version must be at least 9.1.0.')
-
     # Check the type of the `image.size` property.
     image_size = image.size
     if type(image_size) is int:
