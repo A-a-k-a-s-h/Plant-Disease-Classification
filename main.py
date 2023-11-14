@@ -7,7 +7,10 @@ import pandas as pd
 import datetime
 import matplotlib.pyplot as plt
 
-model = torch.load('plant-disease-model.pth', map_location=torch.device('cpu'))
+model = torch.load('plant-disease-model.pth')
+
+# Load the model state dictionary
+model.load_state_dict(model['state_dict'])
 
 # Define the image pre-processing function
 def preprocessed_image(image):
