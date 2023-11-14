@@ -50,7 +50,7 @@ class ResNet9(ImageClassificationBase):
         return out
 
 model = ResNet9(3, 38)  # num_classes is the number of classes in your dataset
-model.load_state_dict(torch.load('plant-disease-model.pth', map_location=torch.device('cpu')), strict=False)
+model.load_state_dict(torch.load('plant-disease-model.pth', map_location=torch.device('cuda')), strict=False)
 model.eval()  # Set the model to evaluation mode
 
 # Define other necessary objects
