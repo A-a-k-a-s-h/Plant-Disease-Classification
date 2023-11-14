@@ -1,11 +1,11 @@
 import streamlit as st
 from PIL import Image
 import numpy as np
-import torch
-from torchvision.models import resnet50
+import tensorflow as tf
+from efficientnet import EfficientNetB0
 
-# Load the ResNet50 model with the Plant Disease classification weights
-model = resnet50(pretrained=True)
+# Load the EfficientNetB0 model with the Plant Disease classification weights
+model = EfficientNetB0(weights='plant_disease_classification')
 
 # Preprocess the image
 def preprocess_image(image):
@@ -17,15 +17,15 @@ def preprocess_image(image):
     # Normalize the image
     image = image / 255.0
 
-    # Convert the image to a PyTorch tensor
-    image = torch.from_numpy(image).permute(2, 0, 1).unsqueeze(0)
+    # Convert the image to a NumPy array
+    image = np.asarray(image)
 
     # Return the preprocessed image
     return image
 
 # Classify the image
 def classify_image(image):
-    """Classify the image using the ResNet50 model."""
+    """Classify the image using the EfficientNetB0 model."""
 
     # Preprocess the image
     preprocessed_image = preprocess_image(image)
@@ -41,7 +41,7 @@ def classify_image(image):
 
 # Main function
 def main():
-    """Classify a plant disease image using the ResNet50 model."""
+    """Classify a plant disease image using the EfficientNetB0 model."""
 
     # Display the app title
     st.title('Plant Disease Classification')
