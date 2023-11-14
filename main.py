@@ -14,7 +14,7 @@ def preprocessed_image(image):
     """Preprocess the image for classification."""
 
     image = Image.open(image)
-    image = image.resize((256, 256), Image.ANTIALIAS)
+    image = image.resize((256, 256), Image.Resampling.LANCZOS)
     image = np.array(image)
     image = image.astype('float32') / 255.0
     image = np.transpose(image, (2, 0, 1))
