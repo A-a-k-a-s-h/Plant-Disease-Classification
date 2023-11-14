@@ -1,64 +1,74 @@
+%%writefile app.py
 import streamlit as st
+import torch
 from PIL import Image
+import os
 import numpy as np
-import tensorflow as tf
-from efficientnet import EfficientNetB0
+import pandas as pd
+import datetime
+import matplotlib.pyplot as plt
 
-# Load the EfficientNetB0 model with the Plant Disease classification weights
-model = EfficientNetB0(weights='plant_disease_classification')
+model = torch.load('/content/plant-disease-model.pth')
 
-# Preprocess the image
-def preprocess_image(image):
-    """Preprocess the image for classification."""
 
-    # Resize the image to 256x256
-    image = image.resize((256, 256))
-
-    # Normalize the image
-    image = image / 255.0
-
-    # Convert the image to a NumPy array
-    image = np.asarray(image)
-
-    # Return the preprocessed image
+# Define the image pre-processing function
+def preprocessed_image(image):
+    image = Image.open(image)
+    image = image.resize((256, 256), Image.ANTIALIAS)
+    image = np.array(image)
+    image = image.astype('float32') / 255.0
+    image = np.transpose(image, (2, 0, 1))
+    image = np.expand_dims(image, axis=0)
     return image
 
-# Classify the image
-def classify_image(image):
-    """Classify the image using the EfficientNetB0 model."""
-
-    # Preprocess the image
-    preprocessed_image = preprocess_image(image)
-
-    # Make a prediction
-    prediction = model(preprocessed_image)
-
-    # Get the predicted class label
-    class_label = prediction.argmax(axis=1)
-
-    # Return the predicted class label
-    return class_label
-
-# Main function
+# Define the main function
 def main():
-    """Classify a plant disease image using the EfficientNetB0 model."""
-
-    # Display the app title
+    # Set the title and sidebar title
     st.title('Plant Disease Classification')
+    st.sidebar.title('Plant Disease Classification App')
 
-    # Upload the image file
-    uploaded_file = st.file_uploader('Upload a plant disease image')
+    # Display instructions and upload option
+    st.markdown('Please upload an image of a plant leaf to classify the disease:')
+    uploaded_file = st.file_uploader('Upload Image', type=['jpg', 'png', 'jpeg'])
 
-    # If an image is uploaded, classify it
+    # If an image is uploaded, pre-process it and make predictions
     if uploaded_file is not None:
-        # Load the image
-        image = Image.open(uploaded_file)
+        image = preprocessed_image(uploaded_file)
+        with torch.no_grad():
+            output = model(torch.from_numpy(image)).squeeze()
+        predicted_class_index = np.argmax(output.numpy())
+        predicted_class_name = get_class_name(predicted_class_index)
 
-        # Classify the image
-        class_label = classify_image(image)
+        # Display the uploaded image and classification result
+        st.image(uploaded_file, width=300)
+        st.write('Predicted Class:', predicted_class_name)
 
-        # Display the prediction
-        st.write(f'Predicted class: {class_label}')
+        # Generate a PDF report
+        generate_report(uploaded_file, predicted_class_name)
 
+# Define the function to generate the PDF report
+def generate_report(image_file, predicted_class_name):
+    # Create a PDF object
+    pdf = FPDF()
+    pdf.add_page()
+
+    # Add image to the PDF
+    pdf.image(image_file, w=100, h=100)
+
+    # Add text to the PDF
+    pdf.set_font('Arial', 'B', 16)
+    pdf.cell(40, 10, 'Predicted Class:')
+    pdf.set_font('Arial', '', 12)
+    pdf.cell(60, 10, predicted_class_name)
+
+    # Save the PDF report
+    report_name = 'plant_disease_report_' + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.pdf'
+    pdf.output(report_name)
+
+    # Show a message informing the user about the generated report
+    st.write('A PDF report has been generated:')
+    st.markdown('[' + report_name + '](./' + report_name + ')')
+
+# Run the main function
 if __name__ == '__main__':
     main()
