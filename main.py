@@ -12,16 +12,30 @@ model = torch.load('plant-disease-model.pth',map_location=torch.device('cpu'))
 def preprocess_image(image):
     """Preprocess the image for classification."""
 
-    # Resize the image to 256x256
-    image = image.resize(list(image.size), Resampling.BILINEAR)
+    # Upgrade to a newer version of Pillow if necessary.
+    if Pillow.__version__ < '9.1.0':
+        raise RuntimeError('Pillow version must be at least 9.1.0.')
 
-    # Convert the image to a PyTorch tensor
+    # Check the type of the `image.size` property.
+    image_size = image.size
+    if type(image_size) is int:
+        image_size = (image_size, image_size)
+
+    # Check the type of the `Resampling.BILINEAR` constant.
+    resampling_bilinear = Resampling.BILINEAR
+    if type(resampling_bilinear) is int:
+        resampling_bilinear = str(resampling_bilinear)
+
+    # Resize the image to 256x256.
+    image = image.resize(list(image_size), resampling_bilinear)
+
+    # Convert the image to a NumPy array.
     image = np.asarray(image)
 
-    # Normalize the image
+    # Normalize the image.
     image = image / 255.0
 
-    # Return the preprocessed image
+    # Return the preprocessed image.
     return image
 
 # Define a function to classify the image
