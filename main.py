@@ -1,42 +1,31 @@
 import streamlit as st
 from PIL import Image
-from PIL.Image import Resampling
-import torch
 import numpy as np
+import torch
+from torchvision.models import resnet50
 
-# Load the pre-trained model
-model = torch.load('plant-disease-model.pth',map_location=torch.device('cpu'))
+# Load the ResNet50 model with the Plant Disease classification weights
+model = resnet50(pretrained=True)
 
-
-# Define a function to preprocess the image
+# Preprocess the image
 def preprocess_image(image):
     """Preprocess the image for classification."""
 
-    # Check the type of the `image.size` property.
-    image_size = image.size
-    if type(image_size) is int:
-        image_size = (image_size, image_size)
+    # Resize the image to 256x256
+    image = image.resize((256, 256))
 
-    # Check the type of the `Resampling.BILINEAR` constant.
-    resampling_bilinear = Resampling.BILINEAR
-    if type(resampling_bilinear) is int:
-        resampling_bilinear = str(resampling_bilinear)
-
-    # Resize the image to 256x256.
-    image = image.resize(list(image_size), resampling_bilinear)
-
-    # Convert the image to a NumPy array.
-    image = np.asarray(image)
-
-    # Normalize the image.
+    # Normalize the image
     image = image / 255.0
 
-    # Return the preprocessed image.
+    # Convert the image to a PyTorch tensor
+    image = torch.from_numpy(image).permute(2, 0, 1).unsqueeze(0)
+
+    # Return the preprocessed image
     return image
 
-# Define a function to classify the image
+# Classify the image
 def classify_image(image):
-    """Classify the image using the pre-trained model."""
+    """Classify the image using the ResNet50 model."""
 
     # Preprocess the image
     preprocessed_image = preprocess_image(image)
@@ -50,9 +39,9 @@ def classify_image(image):
     # Return the predicted class label
     return class_label
 
-# Define the main function
+# Main function
 def main():
-    """Classify a plant disease image using the pre-trained model."""
+    """Classify a plant disease image using the ResNet50 model."""
 
     # Display the app title
     st.title('Plant Disease Classification')
@@ -62,15 +51,14 @@ def main():
 
     # If an image is uploaded, classify it
     if uploaded_file is not None:
-        # Preprocess the image
+        # Load the image
         image = Image.open(uploaded_file)
-        preprocessed_image = preprocess_image(image)
 
-        # Make a prediction
-        prediction = classify_image(preprocessed_image)
+        # Classify the image
+        class_label = classify_image(image)
 
         # Display the prediction
-        st.write(f'Predicted class: {prediction}')
+        st.write(f'Predicted class: {class_label}')
 
 if __name__ == '__main__':
     main()
